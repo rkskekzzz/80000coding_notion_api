@@ -2,6 +2,8 @@
 
 팔만코딩경 컨트리뷰터 관리용 프로젝트입니다. 해당 프로젝트는 contributor db를 통합하면서, 코드의 재사용성과 자동화 기능을 더욱 강력하게 만들었습니다. 코드관련 문의와 이슈는 자유롭게 등록해주세요.
 
+현재 종료날짜 지정은 설정이 불가능합니다. Notion API에서 Date Between 쿼리가 생성되면 업데이트를 진행할 예정입니다.
+
 </br>
 
 # Install
@@ -26,7 +28,6 @@ pip install -r requirements.txt
 
 ```bash
 python3 main.py -s {시작 날짜 입력} \
-				 -e {종료 날짜 입력} \
 				 -t {원하는 컨트리뷰터 종류 ex 2기}
 ```
 
@@ -34,11 +35,10 @@ python3 main.py -s {시작 날짜 입력} \
 
 # Example
 
-2022년 4월 1일부터 2022년 4월 31일까지 2기 컨트리뷰터를 터미널에 출력하고 싶은 경우
+2022년 4월 1일부터 2기 컨트리뷰터의 상태를 터미널에 출력하고 싶은 경우
 
 ```bash
 python3 main.py -s 2022-04-01 \
-				 -e 2022-04-31 \
 				 -t 2기
 ```
 
@@ -48,28 +48,26 @@ python3 main.py -s 2022-04-01 \
 
 ```
 python3 main.py -s 2022-04-01 \
-				 -e 2022-04-31 \
 				 -t 운영진 \
 				 -p csv \
 				 -a amount \
-				 -d descending \
-
+				 -d descending
 ```
 
 </br>
 
 # Options
 
-| option                 | required  | default       | description                 |
-| ---------------------- | --------- | ------------- | --------------------------- |
-| `-s`, `--start-date`   | **True**  |               | 측정을 시작할 날짜          |
-| `-e`, `--end-date`     | **True**  |               | 측정이 끝나야할 날짜        |
-| `-t`, `--th`           | **True**  |               | 측정을 할 기수(숫자만 입력) |
-| `-r` `--result-option` | **False** | "all"         | 결과 옵션 지정              |
-| `-p` `--print-type`    | **False** | "terminal"    | 출력 위치 지정              |
-| `-o` `--print-option`  | **False** | "pandas"      | 데이터 형태 지정            |
-| `-a` `--align-item`    | **False** | "contributor" | 정렬 아이템 지정            |
-| `-d` `--align-dir`     | **False** | "ascending"   | 정렬 방향 지정              |
+| option                 | required  | default       | description                                              |
+| ---------------------- | --------- | ------------- | -------------------------------------------------------- |
+| `-s`, `--start-date`   | **True**  |               | 측정을 시작할 날짜                                       |
+| `-t`, `--th`           | **True**  |               | 측정을 할 기수(숫자만 입력)                              |
+| `-r` `--result-option` | **False** | "all"         | 결과 옵션 지정                                           |
+| `-p` `--print-type`    | **False** | "terminal"    | 출력 위치 지정                                           |
+| `-o` `--print-option`  | **False** | "pandas"      | 데이터 형태 지정                                         |
+| `-a` `--align-item`    | **False** | "contributor" | 정렬 아이템 지정                                         |
+| `-d` `--align-dir`     | **False** | "ascending"   | 정렬 방향 지정                                           |
+| `-e`, `--end-date`     | not now   | -             | notion api에서 date between api가 제공되면 업데이트 예정 |
 
 - 결과 옵션 지정
 

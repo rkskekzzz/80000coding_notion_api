@@ -24,6 +24,7 @@ headers = {
 }
 
 def fetchLibraryObjectList(args):
+	libraryObjectList = []
 	libraryBody = {
 		"filter": {
 			"and": [
@@ -43,7 +44,7 @@ def fetchLibraryObjectList(args):
 		},
 		"page_size": 100
 	}
-	libraryObjectList = []
+
 	while True:
 		libraryResponse = requests.request("POST", libraryDbUrl, headers=headers, data=json.dumps(libraryBody))
 		libraryObject = json.loads(libraryResponse.text)
@@ -51,19 +52,20 @@ def fetchLibraryObjectList(args):
 		if not libraryObject["next_cursor"]:
 			break
 		libraryBody["start_cursor"] = libraryObject["next_cursor"]
+
 	return libraryObjectList
 
 
-def fetchContributorObjectList():
+def fetchContributorObjectList(args):
+	contributorList = []
 	contributorBody = {
 		"filter": {
 			"property": "구분",
 			"multi_select" : {
-				"contains": "2기"
+				"contains": args.th
 			}
 		}
 	}
-	contributorList = []
 
 	contributorResponse = requests.request("POST", contributorDbUrl, headers=headers, data=json.dumps(contributorBody))
 	contributorObject = json.loads(contributorResponse.text)
