@@ -3,19 +3,9 @@
 import requests
 import json
 import os
-import argparse
 import pandas as pd
+from tqdm import tqdm
 from dotenv import load_dotenv
-
-parser = argparse.ArgumentParser(description='팔만코딩경 컨트리뷰터 활동 체크 스크립트')
-parser.add_argument('--start-date', '-s', required=True, help='측정을 시작할 날짜')
-# parser.add_argument('--end-date', '-e', required=True, help='측정이 끝나야할 날짜')
-
-args = parser.parse_args()
-
-# 카뎃 목록 지정
-# cadets = "suhshin dha"
-# start_date = "2022-04-01"
 
 # notion api key 가져오기
 load_dotenv()
@@ -61,7 +51,9 @@ contributorBody = {
     }
 }
 
-
+# 조건에 맞는 데이터를 가져옴
+# notion api가 100개씩 paging 되어있기 떄문에, next_cursor을 비교해서 존재한다면 해당 커서를 body로 넘겨줌
+# next_corsor가 없을때까지 반복
 libraryObjectList = []
 while True:
     libraryResponse = requests.request("POST", libraryDbUrl, headers=headers, data=json.dumps(libraryBody))
@@ -71,7 +63,8 @@ while True:
         break
     libraryBody["start_cursor"] = libraryObject["next_cursor"]
 
-print(len(libraryObjectList))
+print("총 게시글 수 : ", len(libraryObjectList))
+
 contributorResponse = requests.request("POST", contributorDbUrl, headers=headers, data=json.dumps(contributorBody))
 contributorObject = json.loads(contributorResponse.text)
 
@@ -83,14 +76,29 @@ def filterByContributors(x, cadet):
     return cadet == x["properties"]["rich_text"]["formula"]["string"]
 
 
+# 파일에 결과 출력
 resultList = []
 with open("result.txt", 'w') as resultFile:
-    for contributor in contributorList:
+    for contributor in tqdm(contributorList):
         result = [x for x in libraryObjectList if filterByContributors(x, contributor)]
         resultList.append([contributor, str(len(result))])
 
+print("{}기 카뎃 수 : ".format(args.th), len(contributorList))
 
-
+# 데이터 프레임으로 변환 및 시각화
+df = pd.DataFrame(resultList)
+# 컬럼 명 지정
+df.columns = ['contributor', 'yes']
+# yes 컬럼을 int 타입으로 변환
+df['yes'] = df['yes'].astype(int)
+# filtering을 위한 mask 지정
+mask = (df.yes >= 2)
+# 2개 이상의 yes 게시글을 작성한 카뎃만 필터링
+df_done = df.loc[mask,:]
+# yes 개수로 내림차순 정렬
+df_done = df_done.sort_values(by='yes',axis=0, ascending=False)
+# 출력
+print(df_done)
 
 
 
