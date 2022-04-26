@@ -28,7 +28,7 @@ pip install -r requirements.txt
 
 ```bash
 python3 main.py -s {시작 날짜 입력} \
-				 -t {원하는 컨트리뷰터 종류 ex 2기}
+                -t {원하는 컨트리뷰터 종류 ex 2기}
 ```
 
 </br>
@@ -39,7 +39,7 @@ python3 main.py -s {시작 날짜 입력} \
 
 ```bash
 python3 main.py -s 2022-04-01 \
-				 -t 2기
+                -t 2기
 ```
 
 또한 출력 위치와 데이터 형태를 지정할 수 있습니다.
@@ -48,10 +48,10 @@ python3 main.py -s 2022-04-01 \
 
 ```
 python3 main.py -s 2022-04-01 \
-				 -t 운영진 \
-				 -p csv \
-				 -a amount \
-				 -d descending
+                -t 운영진 \
+                -p csv \
+                -a amount \
+                -d descending
 ```
 
 </br>
