@@ -57,7 +57,12 @@ class Result:
 		# amount 컬럼을 int 타입으로 변환
 		df['amount'] = df['amount'].astype(int)
 		# row 생략없이
-		df_align = df.sort_values(by=self.align_item, axis=0, ascending=self.align_dir)
+		if self.result_option != "all":
+			df_mask = df.loc[(df.amount < 2) if self.result_option == "fail" else (df.amount >= 2),:]
+			df_align = df_mask.sort_values(by=self.align_item, axis=0, ascending=self.align_dir)
+		else:
+			df_align = df.sort_values(by=self.align_item, axis=0, ascending=self.align_dir)
+		# row 생략없이 출력
 		pd.set_option('display.max_rows', None)
 
 		if self.print_type in ["t", "terminal"]: # default

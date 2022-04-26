@@ -8,7 +8,7 @@ import sys
 def args_check(_args):
 	if _args.th == None:
 		return False
-	if _args.result_option and not _args.result_option in ["all", "success", "fail"]:
+	if _args.result_option and not _args.result_option in ["all", "a", "success", "s", "fail", "f"]:
 		return False
 	if _args.print_type and not _args.print_type in ["terminal", "t", "file", "f", "csv", "c" ]:
 		return False

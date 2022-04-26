@@ -1,5 +1,5 @@
 .env
 __pycache__/
 
-result.txt
-result.csv
+*.txt
+*.csv
