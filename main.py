@@ -40,10 +40,10 @@ def args():
 
 if __name__ == "__main__":
 	# loader test
-	with Loader("...args checking", "\033[32margs ready ✅\033[30m"):
+	with Loader("...args checking", "\033[32margs ready ✅\033[0m"):
 		args = args()
 
-	with Loader("...fetching library", "\033[32mlibrary ready ✅\033[30m"):
+	with Loader("...fetching library", "\033[32mlibrary ready ✅\033[0m"):
 		try:
 			libraryList = fetchLibraryObjectList(args)
 		except KeyError:
