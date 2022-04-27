@@ -65,6 +65,9 @@ class Result:
 		# row 생략없이 출력
 		pd.set_option('display.max_rows', None)
 
+		if self.print_option in ["s", "string"]:
+			df_align = ", ".join(df_align.contributor.tolist())
+
 		if self.print_type in ["t", "terminal"]: # default
 			print(df_align)
 		elif self.print_type in ["f", "file"]:

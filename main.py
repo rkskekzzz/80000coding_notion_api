@@ -40,16 +40,23 @@ def args():
 
 if __name__ == "__main__":
 	# loader test
-	with Loader("...args checking", "args ready ✅"):
+	with Loader("...args checking", "\033[32margs ready ✅\033[30m"):
 		args = args()
 
-	with Loader("...fetching library", "library ready ✅"):
-		libraryList = fetchLibraryObjectList(args)
+	with Loader("...fetching library", "\033[32mlibrary ready ✅\033[30m"):
+		try:
+			libraryList = fetchLibraryObjectList(args)
+		except KeyError:
+			print("Library Data Fetch Error!")
 
-	with Loader("...fetching contributor", "contributor ready ✅"):
-		contributorList = fetchContributorObjectList(args)
+	with Loader("...fetching contributor", "\033[32mcontributor ready ✅\033[0m"):
+		try:
+			contributorList = fetchContributorObjectList(args)
+		except KeyError:
+			print("Contributor Data Fetch Error!")
 
-	with Loader("...make result", "Done 😀"):
-		result = Result(contributorList, libraryList, args)
-		result.filterResult()
-		result.printResult()
+	result = Result(contributorList, libraryList, args)
+	result.filterResult()
+	result.printResult()
+
+	print("\033[34mDone 😀\033[30m")
